@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #F3F2EF;
+    --surface: #FFFFFF;
+    --accent: #0A66C2;
+    --accent-dark: #004182;
+    --accent-light: #EBF3FB;
+    --text: #000000;
+    --text-muted: #666666;
+    --border: #E0DDD8;
+    --success: #057642;
+    --warning: #B24020;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+  }
+}
