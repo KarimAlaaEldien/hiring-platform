@@ -10,8 +10,13 @@ let initPromise: Promise<void> | null = null;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
   app.enableCors({
-    origin: '*',
+    origin: [
+      'https://hiring-platform-app.vercel.app',
+      'http://localhost:3000',
+    ],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
   await app.init();
   isAppInitialized = true;
