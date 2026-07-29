@@ -6,19 +6,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import api from '@/lib/api';
 import { ArrowLeft, FileText, Mail, User } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { formatDistanceToNow } from 'date-fns';
 import RouteGuard from '@/components/RouteGuard';
 
-export default function JobApplicationsPage({ params }: { params: { id: string } }) {
+export default function JobApplicationsPage() {
+  const params = useParams();
+  const id = params.id as string;
   const [applications, setApplications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
+    if (!id) return;
     const fetchApps = async () => {
       try {
-        const res = await api.get(`/applications/job/${params.id}`);
+        const res = await api.get(`/applications/job/${id}`);
         setApplications(res.data);
       } catch (error) {
         console.error(error);
@@ -27,7 +30,7 @@ export default function JobApplicationsPage({ params }: { params: { id: string }
       }
     };
     fetchApps();
-  }, [params.id]);
+  }, [id]);
 
   const updateStatus = async (id: string, status: string) => {
     try {

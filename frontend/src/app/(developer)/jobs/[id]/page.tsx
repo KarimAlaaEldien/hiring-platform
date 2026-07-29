@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import Navbar from '@/components/Navbar';
@@ -30,7 +30,9 @@ const JobDescriptionRender = ({ description }: { description: string }) => {
   );
 };
 
-export default function JobDetailsPage({ params }: { params: { id: string } }) {
+export default function JobDetailsPage() {
+  const params = useParams();
+  const id = params.id as string;
   const [job, setJob] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [resumeUrl, setResumeUrl] = useState('');
@@ -43,14 +45,15 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
   const [hasApplied, setHasApplied] = useState(false);
 
   useEffect(() => {
+    if (!id) return;
     const fetchJobAndApps = async () => {
       try {
         const [jobRes, appsRes] = await Promise.all([
-          api.get(`/jobs/${params.id}`),
+          api.get(`/jobs/${id}`),
           api.get('/applications/developer').catch(() => ({ data: [] }))
         ]);
         setJob(jobRes.data);
-        const applied = appsRes.data.some((app: any) => app.jobId?._id === params.id || app.jobId === params.id);
+        const applied = appsRes.data.some((app: any) => app.jobId?._id === id || app.jobId === id);
         setHasApplied(applied);
         if (applied) {
           setMessage('You have already applied for this job');
@@ -62,7 +65,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
       }
     };
     fetchJobAndApps();
-  }, [params.id]);
+  }, [id]);
 
   const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,7 +78,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
     setMessage('');
     try {
       await api.post('/applications', {
-        jobId: params.id,
+        jobId: id,
         resumeUrl,
         coverLetter
       });

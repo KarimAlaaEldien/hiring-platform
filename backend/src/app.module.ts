@@ -9,6 +9,7 @@ import { ApplicationsModule } from './applications/applications.module';
 import { AuthModule } from './auth/auth.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { HealthController } from './health/health.controller';
+import { MigrateModule } from './migrate/migrate.module';
 
 @Module({
   imports: [
@@ -17,6 +18,11 @@ import { HealthController } from './health/health.controller';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URI'),
+        serverSelectionTimeoutMS: 10000,
+        connectTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
+        maxPoolSize: 10,
+        bufferCommands: false,
       }),
       inject: [ConfigService],
     }),
@@ -24,7 +30,8 @@ import { HealthController } from './health/health.controller';
     JobsModule, 
     ApplicationsModule, 
     AuthModule, 
-    NotificationsModule
+    NotificationsModule,
+    MigrateModule
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

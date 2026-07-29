@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   applicationName: "HIRE/",
   keywords: ["hiring platform", "developer jobs", "job applications", "companies hiring"],
   authors: [{ name: "HIRE/" }],
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: "HIRE/ - Hiring Platform",
     description: "Connect companies with developers through job posts, applications, and real-time updates.",

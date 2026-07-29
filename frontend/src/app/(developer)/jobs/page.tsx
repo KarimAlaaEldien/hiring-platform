@@ -115,7 +115,7 @@ export default function JobsPage() {
                 <div className="w-full border-t border-border pt-4 mt-2">
                   <Link href="/applications" className="flex justify-between items-center text-xs font-semibold text-text-muted hover:text-black mb-2">
                     <span>My Applications</span>
-                    <span className="text-accent-main">0</span>
+                    <span className="text-accent-main">{userApplications.length}</span>
                   </Link>
                   <Link href="/saved" className="flex justify-between items-center text-xs font-semibold text-text-muted hover:text-black mb-2">
                     <span>Saved Jobs</span>

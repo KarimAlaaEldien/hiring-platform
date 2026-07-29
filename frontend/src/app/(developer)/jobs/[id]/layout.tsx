@@ -25,8 +25,9 @@ async function getJob(id: string): Promise<JobMetadata | null> {
   }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const job = await getJob(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const job = await getJob(id);
 
   if (!job) {
     return {
